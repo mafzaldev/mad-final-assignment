@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/pages/signup_page.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
@@ -15,6 +16,29 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  login() {
+    _auth
+        .signInWithEmailAndPassword(
+            email: _emailController.text, password: _passwordController.text)
+        .then((value) {
+      _emailController.clear();
+      _passwordController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${value.user!.email} is logged in now!"),
+        ),
+      );
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(e.toString()),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: 200,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(_emailController.text),
-                        ),
-                      );
+                      login();
                     }
                   }),
               Row(

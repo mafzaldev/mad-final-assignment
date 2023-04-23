@@ -4,6 +4,8 @@ import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 import 'package:mad_combined_tasks/widgets/custom_text_field.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -15,6 +17,29 @@ class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  signUp() {
+    _auth
+        .createUserWithEmailAndPassword(
+            email: _emailController.text, password: _passwordController.text)
+        .then((value) {
+      _emailController.clear();
+      _passwordController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${value.user!.email} is registered now!"),
+        ),
+      );
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(e.toString()),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +78,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   width: 200,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(_emailController.text),
-                        ),
-                      );
+                      signUp();
                     }
                   }),
               Row(
