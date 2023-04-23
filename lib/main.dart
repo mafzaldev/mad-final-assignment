@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mad_combined_tasks/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mad_combined_tasks/pages/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,12 +15,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MAD Combined Tasks',
-      theme: ThemeData(brightness: Brightness.dark),
+      themeMode: ThemeMode.light,
+      theme:
+          ThemeData(brightness: Brightness.light, primarySwatch: Colors.teal),
       darkTheme: ThemeData(brightness: Brightness.dark),
-      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
-      home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }
