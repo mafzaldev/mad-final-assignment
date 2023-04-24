@@ -25,15 +25,15 @@ The Viva and demonstration will be conducted, individually. You will come with s
   - SizedBox
   - Drawer
 
-- [Task #2] TabBar & TabBarView with Custom TabController along with ExpansionTile & ExpansionPanel and Carousel-Slider
+- [Task #2] TabBar & TabBarView with Custom TabController along with ExpansionTile & ExpansionPanel and Carousel-Slider.
 - [Task #3] Build a form with validation.
 - [Task #4] Firebase Realtime Database: CRUD with Firebase Realtime database.
-- [Task #5] User-defined / Custom Widgets, with and without parameters
+- [Task #5] User-defined / Custom Widgets, with and without parameters.
 - [Task #6] Read and Write Data in Flutter using shared preferences.
 - [Task #7] Upload an image from Camera or Gallery to Firebase storage.
-- [Task #8] Local Data Storage in Flutter Using SQFLite
+- [Task #8] Local Data Storage in Flutter Using SQFLite.
 - [Task #9] Play and pause a video.
-- [Task #10] Firebase authentication using email/password, Google & Facebook
-- [Task #11] REST API integration, Implementation of CRUD operations, (Please visit https://dummyjson.com to get API URLs)
-- [Task #12] State Management
-- [Task #13] Push Notifications
+- [Task #10] Firebase authentication using email/password, Google & Facebook.
+- [Task #11] REST API integration, Implementation of CRUD operations.
+- [Task #12] State Management.
+- [Task #13] Push Notifications.

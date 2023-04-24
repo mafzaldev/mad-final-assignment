@@ -1,9 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:mad_combined_tasks/pages/home_page.dart';
 import 'package:mad_combined_tasks/pages/signup_page.dart';
+import 'package:mad_combined_tasks/utils/utils.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 import 'package:mad_combined_tasks/widgets/custom_text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:mad_combined_tasks/widgets/social_icon_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +24,41 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  GoogleSignInAccount? _currentUser;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  Future<String?> signInWithGoogle() async {
+    try {
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return null;
+      _currentUser = googleUser;
+
+      final googleSignInAuthentication = await googleUser.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      final UserCredential authResult =
+          await _auth.signInWithCredential(credential);
+      final User? user = authResult.user;
+
+      Utils().showSnackBar(
+          context, Colors.black, "${user!.email} is logged in now!");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
+      return null;
+    } catch (e) {
+      log(e.toString());
+    }
+    return null;
+  }
+
+  signInWithFacebook() async {
+    //write code here
+  }
 
   login() {
     _auth
@@ -25,18 +67,12 @@ class _LoginPageState extends State<LoginPage> {
         .then((value) {
       _emailController.clear();
       _passwordController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${value.user!.email} is logged in now!"),
-        ),
-      );
+      Utils().showSnackBar(
+          context, Colors.black, "${value.user!.email} is logged in now!");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     }).catchError((e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(e.toString()),
-        ),
-      );
+      Utils().showSnackBar(context, Colors.red, e.toString());
     });
   }
 
@@ -96,17 +132,21 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               const Divider(),
-              CustomButton(
-                  color: Colors.blue,
-                  text: "Login with Google",
-                  width: 200,
-                  onPressed: () {}),
-              const SizedBox(height: 16),
-              CustomButton(
-                  color: const Color(0xFF3B5998),
-                  text: "Login with Facebook",
-                  width: 200,
-                  onPressed: () {}),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SocialIconButton(
+                      onPressed: signInWithGoogle,
+                      size: 73,
+                      iconUrl:
+                          'http://pngimg.com/uploads/google/google_PNG19635.png'),
+                  SocialIconButton(
+                      onPressed: signInWithFacebook,
+                      size: 50,
+                      iconUrl:
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png')
+                ],
+              ),
             ],
           ),
         ),
