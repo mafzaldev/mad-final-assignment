@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/pages/login_page.dart';
+import 'package:mad_combined_tasks/utils/utils.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 import 'package:mad_combined_tasks/widgets/custom_text_field.dart';
@@ -26,18 +27,10 @@ class _SignUpPageState extends State<SignUpPage> {
         .then((value) {
       _emailController.clear();
       _passwordController.clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${value.user!.email} is registered now!"),
-        ),
-      );
+      Utils().showSnackBar(
+          context, Colors.black, "${value.user!.email} is registered now!");
     }).catchError((e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(e.toString()),
-        ),
-      );
+      Utils().showSnackBar(context, Colors.red, e.toString());
     });
   }
 

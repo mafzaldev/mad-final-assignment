@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/utils/api_service.dart';
+import 'package:mad_combined_tasks/utils/utils.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 import 'package:mad_combined_tasks/widgets/custom_text_field.dart';
@@ -113,11 +114,7 @@ class UpdateRecordState extends State<UpdateRecord> {
                         bodyController.text,
                       );
                       String response = await updateResponse;
-
-                      // ignore: use_build_context_synchronously
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(response)),
-                      );
+                      Utils().showSnackBar(context, Colors.black, response);
                     }
                     idController.clear();
                     titleController.clear();

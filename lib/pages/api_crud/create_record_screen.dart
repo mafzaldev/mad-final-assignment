@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/utils/api_service.dart';
+import 'package:mad_combined_tasks/utils/utils.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 import 'package:mad_combined_tasks/widgets/custom_text_field.dart';
 
@@ -94,9 +95,7 @@ class CreateRecordState extends State<CreateRecord> {
                         userIDController.text,
                       );
                       String response = await postResponse;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(response)),
-                      );
+                      Utils().showSnackBar(context, Colors.black, response);
                     }
                     titleController.clear();
                     bodyController.clear();
