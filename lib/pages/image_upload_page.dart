@@ -4,9 +4,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
+import 'package:mad_combined_tasks/widgets/custom_button.dart';
 
 class ImageUploadPage extends StatefulWidget {
   const ImageUploadPage({
@@ -29,8 +30,10 @@ class _HomePageState extends State<ImageUploadPage> {
       sourcePath: image.path,
     );
 
+    log(croppedImage.toString());
+
     if (croppedImage == null) return;
-    uploadImage(XFile(croppedImage.path));
+    uploadImage(XFile(image.path));
   }
 
   uploadImage(XFile? image) async {
@@ -112,40 +115,29 @@ class _HomePageState extends State<ImageUploadPage> {
             const SizedBox(
               height: 40,
             ),
-            SizedBox(
+            CustomButton(
+              text: "Upload Image",
               width: 200,
-              height: 50,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: 120,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SourceButton(
-                                    Icons.camera_alt, ImageSource.camera),
-                                const SizedBox(
-                                  width: 40,
-                                ),
-                                SourceButton(Icons.image, ImageSource.gallery)
-                              ],
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SizedBox(
+                        height: 120,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SourceButton(Icons.camera_alt, ImageSource.camera),
+                            const SizedBox(
+                              width: 40,
                             ),
-                          );
-                        });
-                  },
-                  child: const Text(
-                    "Upload Image",
-                    style: TextStyle(fontSize: 15),
-                  )),
+                            SourceButton(Icons.image, ImageSource.gallery)
+                          ],
+                        ),
+                      );
+                    });
+              },
             )
           ],
         ),

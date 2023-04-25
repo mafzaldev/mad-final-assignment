@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/pages/api_crud/rest_api_index.dart';
+import 'package:mad_combined_tasks/pages/grid_view_page.dart';
 import 'package:mad_combined_tasks/pages/image_upload_page.dart';
 import 'package:provider/provider.dart';
 import 'package:mad_combined_tasks/providers/theme_provider.dart';
@@ -77,6 +78,16 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const ImageUploadPage()));
+              },
+            ),
+            ListTile(
+              title: const Text('GridView'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const GridViewPage()));
               },
             ),
           ],
