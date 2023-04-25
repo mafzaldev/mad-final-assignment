@@ -11,3 +11,12 @@ class Utils {
     );
   }
 }
+
+class Styles {
+  static ThemeData themeData(bool isDarkTheme, BuildContext context) {
+    return ThemeData(
+      brightness: isDarkTheme ? Brightness.dark : Brightness.light,
+      primarySwatch: Colors.teal,
+    );
+  }
+}

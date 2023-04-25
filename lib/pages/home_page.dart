@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:mad_combined_tasks/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:mad_combined_tasks/pages/firebase_crud/firebase_index.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -49,15 +57,27 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Icon(
-              Icons.menu,
-              size: 50,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Click this switch to change theme:',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                Switch(
+                    value: themeProvider.darkTheme,
+                    onChanged: (bool value) {
+                      themeProvider.darkTheme = value;
+                    })
+              ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               'Open Drawer to see all the tasks completed in this app!',
               textAlign: TextAlign.center,
               style: TextStyle(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mad_combined_tasks/pages/home_page.dart';
+import 'package:mad_combined_tasks/utils/utils.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mad_combined_tasks/pages/login_page.dart';
+import 'package:mad_combined_tasks/providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,20 +11,45 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  DarkThemeProvider themeChangeProvider = DarkThemeProvider();
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentAppTheme();
+  }
+
+  void getCurrentAppTheme() async {
+    themeChangeProvider.darkTheme =
+        await themeChangeProvider.darkThemePreference.getTheme();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MAD Combined Tasks',
-      themeMode: ThemeMode.light,
-      theme:
-          ThemeData(brightness: Brightness.light, primarySwatch: Colors.teal),
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      debugShowCheckedModeBanner: false,
-      debugShowMaterialGrid: false,
-      home: const LoginPage(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) {
+            return themeChangeProvider;
+          }),
+        ],
+        child: Consumer<DarkThemeProvider>(
+          builder: (context, value, child) {
+            return MaterialApp(
+              title: 'MAD Combined Tasks',
+              theme: Styles.themeData(themeChangeProvider.darkTheme, context),
+              debugShowCheckedModeBanner: false,
+              debugShowMaterialGrid: false,
+              home: const HomePage(),
+            );
+          },
+        ));
   }
 }
