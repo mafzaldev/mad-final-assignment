@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/pages/api_crud/rest_api_index.dart';
 import 'package:mad_combined_tasks/pages/image_upload_page.dart';
@@ -15,6 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<DarkThemeProvider>(context);
@@ -25,8 +28,8 @@ class _HomePageState extends State<HomePage> {
             const DrawerHeader(
               child: CircleAvatar(
                 foregroundImage: NetworkImage(
-                  "https://avatars.githubusercontent.com/u/78255759?v=4",
-                  scale: .8,
+                  "https://i.ytimg.com/vi/aQk0RTh1Xfk/maxresdefault.jpg",
+                  scale: .5,
                 ),
               ),
             ),
@@ -79,7 +82,15 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      appBar: const CustomAppBar(title: "Home Page", actions: []),
+      appBar: CustomAppBar(title: "Home Page", actions: [
+        IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            _auth.signOut();
+            Navigator.pop(context);
+          },
+        )
+      ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(

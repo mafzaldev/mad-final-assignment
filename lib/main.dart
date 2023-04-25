@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mad_combined_tasks/pages/home_page.dart';
+import 'package:mad_combined_tasks/pages/login_page.dart';
 import 'package:mad_combined_tasks/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
               theme: Styles.themeData(themeChangeProvider.darkTheme, context),
               debugShowCheckedModeBanner: false,
               debugShowMaterialGrid: false,
-              home: const HomePage(),
+              home: const LoginPage(),
             );
           },
         ));

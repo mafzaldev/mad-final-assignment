@@ -1,8 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:mad_combined_tasks/pages/home_page.dart';
 import 'package:mad_combined_tasks/pages/signup_page.dart';
 import 'package:mad_combined_tasks/utils/utils.dart';
@@ -46,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
       final User? user = authResult.user;
 
       Utils().showSnackBar(
-          context, Colors.black, "${user!.email} is logged in now!");
+          context, Colors.black, "${user!.displayName} is logged in now!");
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const HomePage()));
       return null;
@@ -56,8 +59,50 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  signInWithFacebook() async {
-    //write code here
+  void signInWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login(
+          permissions: ([
+        'public_profile',
+      ]));
+      final token = result.accessToken!.token;
+      print(
+          'Facebook token userID : ${result.accessToken!.grantedPermissions}');
+      final graphResponse = await http.get(Uri.parse(
+          'https://graph.facebook.com/'
+          'v2.12/me?fields=name,first_name,last_name,email&access_token=$token'));
+
+      final profile = jsonDecode(graphResponse.body);
+      log("Profile is equal to $profile");
+      try {
+        final AuthCredential facebookCredential =
+            FacebookAuthProvider.credential(result.accessToken!.token);
+        final userCredential =
+            await _auth.signInWithCredential(facebookCredential);
+        final User? user = userCredential.user;
+        Utils().showSnackBar(
+            context, Colors.black, "${profile["name"]} is logged in now!");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      } catch (e) {
+        final snackBar = SnackBar(
+          margin: const EdgeInsets.all(20),
+          behavior: SnackBarBehavior.floating,
+          content: Text(e.toString()),
+          backgroundColor: (Colors.redAccent),
+          action: SnackBarAction(
+            label: 'dismiss',
+            onPressed: () {},
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (e) {
+      log("error occurred");
+      log(e.toString());
+    }
   }
 
   login() {
