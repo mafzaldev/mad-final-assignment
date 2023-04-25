@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mad_combined_tasks/providers/theme_provider.dart';
+import 'package:mad_combined_tasks/pages/api_crud/rest_api_index.dart';
+import 'package:mad_combined_tasks/pages/image_upload_page.dart';
 import 'package:provider/provider.dart';
-import 'package:mad_combined_tasks/pages/firebase_crud/firebase_index.dart';
+import 'package:mad_combined_tasks/providers/theme_provider.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
+import 'package:mad_combined_tasks/pages/firebase_crud/firebase_index.dart';
+import 'package:mad_combined_tasks/pages/carousel_slider_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,6 +39,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: const Text('Firebase CRUD'),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -43,9 +47,33 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: const Text('Settings Page'),
+              title: const Text('REST API CRUD'),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RESTAPIIndex()));
+              },
+            ),
+            ListTile(
+              title: const Text('Carousel Slider'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CarouselSliderPage()));
+              },
+            ),
+            ListTile(
+              title: const Text('Image Uploader'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ImageUploadPage()));
               },
             ),
           ],

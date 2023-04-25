@@ -20,3 +20,7 @@ class Styles {
     );
   }
 }
+
+class ApiConstants {
+  static String apiUrl = 'https://dummyjson.com/posts/';
+}
