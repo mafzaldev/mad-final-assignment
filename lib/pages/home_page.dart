@@ -4,6 +4,7 @@ import 'package:mad_combined_tasks/pages/api_crud/rest_api_index.dart';
 import 'package:mad_combined_tasks/pages/counter_page.dart';
 import 'package:mad_combined_tasks/pages/grid_view_page.dart';
 import 'package:mad_combined_tasks/pages/image_upload_page.dart';
+import 'package:mad_combined_tasks/pages/sqlite_crud/sqlite_index.dart';
 import 'package:mad_combined_tasks/pages/video_player_page.dart';
 import 'package:provider/provider.dart';
 import 'package:mad_combined_tasks/providers/theme_provider.dart';
@@ -60,6 +61,16 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const RESTAPIIndex()));
+              },
+            ),
+            ListTile(
+              title: const Text('SQLite CRUD'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SQLiteIndex()));
               },
             ),
             ListTile(
@@ -141,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Switch(
                     value: themeProvider.darkTheme,
-                    onChanged: (bool value) {
+                    onChanged: (bool value) async {
                       themeProvider.darkTheme = value;
                     })
               ],

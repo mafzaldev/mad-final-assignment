@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/pages/home_page.dart';
@@ -5,7 +7,7 @@ import 'package:mad_combined_tasks/providers/counter_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mad_combined_tasks/providers/theme_provider.dart';
-import 'package:mad_combined_tasks/utils/utils.dart';
+import 'package:mad_combined_tasks/services/utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

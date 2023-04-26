@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/models/post_model.dart';
 import 'package:mad_combined_tasks/widgets/list_item_widget.dart';
-import 'package:mad_combined_tasks/utils/api_service.dart';
+import 'package:mad_combined_tasks/services/api_service.dart';
 
 class ViewRecords extends StatefulWidget {
   const ViewRecords({super.key});

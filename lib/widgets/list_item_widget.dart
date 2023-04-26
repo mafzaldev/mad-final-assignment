@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mad_combined_tasks/models/post_model.dart';
 import 'package:mad_combined_tasks/pages/api_crud/update_record_screen.dart';
-import 'package:mad_combined_tasks/utils/api_service.dart';
-import 'package:mad_combined_tasks/utils/utils.dart';
+import 'package:mad_combined_tasks/services/api_service.dart';
+import 'package:mad_combined_tasks/services/utils.dart';
 
 class ListItem extends StatelessWidget {
   final Post post;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mad_combined_tasks/utils/api_service.dart';
-import 'package:mad_combined_tasks/utils/utils.dart';
+import 'package:mad_combined_tasks/services/api_service.dart';
+import 'package:mad_combined_tasks/services/utils.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 import 'package:mad_combined_tasks/widgets/custom_text_field.dart';

@@ -8,7 +8,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:mad_combined_tasks/pages/home_page.dart';
 import 'package:mad_combined_tasks/pages/signup_page.dart';
-import 'package:mad_combined_tasks/utils/utils.dart';
+import 'package:mad_combined_tasks/services/utils.dart';
 import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 import 'package:mad_combined_tasks/widgets/custom_text_field.dart';
@@ -66,8 +66,7 @@ class _LoginPageState extends State<LoginPage> {
         'public_profile',
       ]));
       final token = result.accessToken!.token;
-      print(
-          'Facebook token userID : ${result.accessToken!.grantedPermissions}');
+      log('Facebook token userID : ${result.accessToken!.grantedPermissions}');
       final graphResponse = await http.get(Uri.parse(
           'https://graph.facebook.com/'
           'v2.12/me?fields=name,first_name,last_name,email&access_token=$token'));
@@ -80,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
         final userCredential =
             await _auth.signInWithCredential(facebookCredential);
         final User? user = userCredential.user;
+
         Utils().showSnackBar(
             context, Colors.black, "${profile["name"]} is logged in now!");
         Navigator.push(
@@ -87,20 +87,10 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } catch (e) {
-        final snackBar = SnackBar(
-          margin: const EdgeInsets.all(20),
-          behavior: SnackBarBehavior.floating,
-          content: Text(e.toString()),
-          backgroundColor: (Colors.redAccent),
-          action: SnackBarAction(
-            label: 'dismiss',
-            onPressed: () {},
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        log(e.runtimeType.toString());
+        Utils().showSnackBar(context, Colors.red, e.toString());
       }
     } catch (e) {
-      log("error occurred");
       log(e.toString());
     }
   }

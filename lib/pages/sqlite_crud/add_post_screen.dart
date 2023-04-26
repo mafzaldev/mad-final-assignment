@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:mad_combined_tasks/services/utils.dart';
+import 'package:mad_combined_tasks/services/database_helper.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -36,24 +34,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
             CustomButton(
               text: "Add",
               width: 200,
-              onPressed: () {
-                String id = DateTime.now().microsecondsSinceEpoch.toString();
-                databaseRef
-                    .child(id)
-                    .set({
-                      "id": id,
-                      "postText": postTextController.text.toString(),
-                    })
-                    .then((value) => {
-                          Utils().showSnackBar(
-                              context, Colors.black, "Post Added"),
-                          postTextController.clear(),
-                        })
-                    .onError((error, stackTrace) => {
-                          log(error.toString()),
-                          Utils().showSnackBar(
-                              context, Colors.red, error.toString()),
-                        });
+              onPressed: () async {
+                if (postTextController.text.isNotEmpty) {
+                  await DatabaseHelper.instance.insertPost({
+                    DatabaseHelper.colPost: postTextController.text,
+                  });
+                  postTextController.clear();
+                }
               },
             )
           ],
