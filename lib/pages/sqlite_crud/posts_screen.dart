@@ -29,61 +29,69 @@ class _PostsScreenState extends State<PostsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-                itemCount: _posts.length,
-                itemBuilder: ((
-                  context,
-                  index,
-                ) {
-                  var post = _posts[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Card(
-                      child: ListTile(
-                        title: Text(post["post"].toString()),
-                        trailing: PopupMenuButton(
-                          icon: const Icon(Icons.more_vert),
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                                value: 1,
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    showMyDialog(post["id"].toString(),
-                                        post["post"].toString());
-                                  },
-                                  leading: const Icon(Icons.edit),
-                                  title: const Text("Update"),
-                                )),
-                            PopupMenuItem(
-                                value: 1,
-                                child: ListTile(
-                                  onTap: () async {
-                                    Navigator.pop(context);
-                                    await DatabaseHelper.instance
-                                        .deletePost(post["id"]);
-                                    var tempPosts = await DatabaseHelper
-                                        .instance
-                                        .queryPosts();
-                                    setState(() {
-                                      _posts = tempPosts;
-                                    });
-                                  },
-                                  leading: const Icon(Icons.delete),
-                                  title: const Text("Delete"),
-                                )),
-                          ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          var tempPosts = await DatabaseHelper.instance.queryPosts();
+          setState(() {
+            _posts = tempPosts;
+          });
+        },
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: _posts.length,
+                  itemBuilder: ((
+                    context,
+                    index,
+                  ) {
+                    var post = _posts[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Card(
+                        child: ListTile(
+                          title: Text(post["post"].toString()),
+                          trailing: PopupMenuButton(
+                            icon: const Icon(Icons.more_vert),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                  value: 1,
+                                  child: ListTile(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      showMyDialog(post["id"].toString(),
+                                          post["post"].toString());
+                                    },
+                                    leading: const Icon(Icons.edit),
+                                    title: const Text("Update"),
+                                  )),
+                              PopupMenuItem(
+                                  value: 1,
+                                  child: ListTile(
+                                    onTap: () async {
+                                      Navigator.pop(context);
+                                      await DatabaseHelper.instance
+                                          .deletePost(post["id"]);
+                                      var tempPosts = await DatabaseHelper
+                                          .instance
+                                          .queryPosts();
+                                      setState(() {
+                                        _posts = tempPosts;
+                                      });
+                                    },
+                                    leading: const Icon(Icons.delete),
+                                    title: const Text("Delete"),
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                })),
-          ),
-        ],
+                    );
+                  })),
+            ),
+          ],
+        ),
       ),
     );
   }

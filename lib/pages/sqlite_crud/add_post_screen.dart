@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:mad_combined_tasks/services/database_helper.dart';
 import 'package:mad_combined_tasks/widgets/custom_button.dart';
 
@@ -12,7 +11,6 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
   TextEditingController postTextController = TextEditingController();
-  final databaseRef = FirebaseDatabase.instance.ref("posts");
   @override
   Widget build(BuildContext context) {
     return Scaffold(

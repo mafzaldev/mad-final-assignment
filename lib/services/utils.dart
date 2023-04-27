@@ -5,7 +5,7 @@ class Utils {
       BuildContext context, Color backgroundColor, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(message, style: const TextStyle(color: Colors.white)),
         backgroundColor: backgroundColor,
       ),
     );

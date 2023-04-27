@@ -37,19 +37,31 @@ class _GridViewPageState extends State<GridViewPage> {
           title: 'Grid View',
           actions: [],
         ),
-        body: GridView.count(
-            crossAxisCount: 3,
-            crossAxisSpacing: 4.0,
-            mainAxisSpacing: 8.0,
-            children: List.generate(cards.length, (index) {
-              return Center(
-                child: GridCard(
-                    card: cards[index],
-                    onTap: (String title, String body) {
-                      triggerNotification(title, body, index);
-                    }),
-              );
-            })));
+        body: Column(
+          children: [
+            const SizedBox(height: 20),
+            const Text(
+              'Tap on a card to trigger a notification',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: GridView.count(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 8.0,
+                  children: List.generate(cards.length, (index) {
+                    return Center(
+                      child: GridCard(
+                          card: cards[index],
+                          onTap: (String title, String body) {
+                            triggerNotification(title, body, index);
+                          }),
+                    );
+                  })),
+            ),
+          ],
+        ));
   }
 }
 

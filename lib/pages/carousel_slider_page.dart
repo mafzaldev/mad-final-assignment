@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:mad_combined_tasks/widgets/custom_app_bar.dart';
 
 class CarouselSliderPage extends StatefulWidget {
   const CarouselSliderPage({super.key});
@@ -27,6 +28,10 @@ class _CarouselSliderPageState extends State<CarouselSliderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(
+        title: "Carousel Slider",
+        actions: [],
+      ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Stack(
           children: [

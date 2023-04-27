@@ -79,9 +79,10 @@ class _LoginPageState extends State<LoginPage> {
         final userCredential =
             await _auth.signInWithCredential(facebookCredential);
         final User? user = userCredential.user;
+        log(user.toString());
 
         Utils().showSnackBar(
-            context, Colors.black, "${profile["name"]} is logged in now!");
+            context, Colors.black, "${user!.displayName} is logged in now!");
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
